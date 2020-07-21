@@ -26,3 +26,8 @@ jobs:
         with:
           name: scancentral-logs
           path: ~/.fortify/scancentral/log
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: package.zip
+          path: package.zip
