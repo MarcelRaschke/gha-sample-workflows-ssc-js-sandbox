@@ -13,7 +13,8 @@ jobs:
           java-version: 1.8
       - uses: fortify/gha-setup-scancentral-client@v1
       - uses: fortify/gha-setup-fod-uploader@v1
-      - run: scancentral package -bt mvn -o package.zip
+      - run: npm install --no-save
+      - run: scancentral package -bt none -o package.zip
       - run: java -jar $FOD_UPLOAD_JAR -z package.zip -aurl https://api.ams.fortify.com/ -purl https://ams.fotify.com/ -rid "$FOD_RELEASE_ID" -tc "$FOD_TENANT" -uc "$FOD_USER" "$FOD_PAT" -ep 2 -pp 1
         env: 
           FOD_TENANT: FortifyPS  
