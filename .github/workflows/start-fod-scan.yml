@@ -17,10 +17,10 @@ jobs:
       - run: scancentral package -bt none -o package.zip
       - run: java -jar $FOD_UPLOAD_JAR -z package.zip -aurl https://api.ams.fortify.com/ -purl https://ams.fotify.com/ -rid "$FOD_RELEASE_ID" -tc "$FOD_TENANT" -uc "$FOD_USER" "$FOD_PAT" -ep 2 -pp 1
         env: 
-          FOD_TENANT: FortifyPS  
+          FOD_TENANT: ${{ secrets.FOD_TENANT }}  
           FOD_USER: ${{ secrets.FOD_USER }}
           FOD_PAT: ${{ secrets.FOD_PAT }}
-          FOD_RELEASE_ID: 251975  
+          FOD_RELEASE_ID: ${{ secrets.FOD_RELEASE_ID }}  
       - uses: actions/upload-artifact@v2
         if: always()
         with:
