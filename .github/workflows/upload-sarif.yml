@@ -1,3 +1,5 @@
+name: Upload Sarif
+
 on: [workflow_dispatch]
 
 jobs:
