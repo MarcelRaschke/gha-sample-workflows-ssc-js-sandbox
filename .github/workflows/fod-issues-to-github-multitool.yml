@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - uses: fortify/gha-fod-download-fpr@use-mt-dsp-flag
+      - uses: fortify/gha-fod-download-fpr@master
         with:
           base-url: https://ams.fortify.com
           tenant: ${{ secrets.FOD_TENANT }}
@@ -17,7 +17,7 @@ jobs:
           password: ${{ secrets.FOD_PAT }}
           release-id: ${{ secrets.FOD_RELEASE_ID }}
           outputDir: ./fpr
-      - uses: fortify/gha-fpr-to-sarif@master
+      - uses: fortify/gha-fpr-to-sarif@use-mt-dsp-flag
         with:
           input: ./fpr
           outputDir: ./sarif
