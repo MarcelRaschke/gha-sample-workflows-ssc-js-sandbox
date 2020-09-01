@@ -198,6 +198,10 @@
                 "Impact": "4.0",
                 "Probability": "4.0"
               }
+            },
+            {
+              "id": "4B50B83A-A24F-49EA-BD59-C2EA5D60F63F0",
+              "guid": "4B50B83A-A24F-49EA-BD59-C2EA5D60F63F"
             }
           ],
           "supportedTaxonomies": [
@@ -220,7 +224,7 @@
           "ruleIndex": 3,
           "level": "error",
           "message": {
-            "text": "The random number generator implemented by [random()](1) cannot withstand a cryptographic attack.\nStandard pseudorandom number generators cannot withstand cryptographic attacks."
+            "text": "XXThe random number generator implemented by [random()](1) cannot withstand a cryptographic attack.\nStandard pseudorandom number generators cannot withstand cryptographic attacks."
           },
           "locations": [
             {
