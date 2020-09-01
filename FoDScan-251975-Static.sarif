@@ -1,0 +1,1270 @@
+{
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "MicroFocus Fortify SCA",
+          "version": "20.1.1.0007",
+          "rules": [
+            {
+              "id": "9DC93E75-BA94-4FA1-A177-ED1201EB29BC",
+              "guid": "9DC93E75-BA94-4FA1-A177-ED1201EB29BC",
+              "name": "Security Features/Password Management/Password in Comment",
+              "shortDescription": {
+                "text": "Storing passwords or password details in plain text anywhere in the system or system code may compromise system security in a way that cannot be easily remedied."
+              },
+              "fullDescription": {
+                "text": "It is never a good idea to hardcode a password. Storing password details within comments is equivalent to hardcoding passwords. Not only does it allow all of the project's developers to view the password, it also makes fixing the problem extremely difficult. After the code is in production, the password is now leaked to the outside world and cannot be protected or changed without patching the software. If the account protected by the password is compromised, the owners of the system must choose between security and availability.\n\nIn this case, the password details appear in the comment in {PrimaryLocation.file} at line {PrimaryLocation.line}.\n\n**Example:** The following comment specifies the default password to connect to a database:\n\n`\n...\n// Default username for database connection is \"scott\"\n// Default password for database connection is \"tiger\"\n...\n`\n\nThis code will run successfully, but anyone who has access to it will have access to the password. After the program ships, there is likely no way to change the database user \"scott\" with a password of \"tiger\" unless the program is patched. An employee with access to this information can use it to break into the system."
+              },
+              "defaultConfiguration": {
+                "properties": {
+                  "DefaultSeverity": "2.0"
+                }
+              },
+              "relationships": [
+                {
+                  "target": {
+                    "id": "615",
+                    "toolComponent": {
+                      "name": "CWE",
+                      "guid": "25F72D7E-8A92-459D-AD67-64853F788765"
+                    }
+                  },
+                  "kinds": [
+                    "relevant"
+                  ]
+                }
+              ],
+              "properties": {
+                "Accuracy": "1.0",
+                "Impact": "2.0",
+                "Probability": "3.0"
+              }
+            },
+            {
+              "id": "D6E6DFB6-6664-4FC9-BFE8-502BAE140905",
+              "guid": "D6E6DFB6-6664-4FC9-BFE8-502BAE140905",
+              "name": "Security Features/Password Management/Hardcoded Password",
+              "shortDescription": {
+                "text": "Hardcoded passwords may compromise system security in a way that cannot be easily remedied."
+              },
+              "fullDescription": {
+                "text": "It is never a good idea to hardcode a password. Not only does hardcoding a password allow all of the project's developers to view the password, it also makes fixing the problem extremely difficult. After the code is in production, the password cannot be changed without patching the software. If the account protected by the password is compromised, the owners of the system must choose between security and availability.\n\nIn this case, the password was used to access a resource at <Replace key=\"PrimaryCall.name\" link=\"PrimaryLocation\"/> in {PrimaryLocation.file} at line {PrimaryLocation.line}.\n\n**Example:** The following code uses a hardcoded password to connect to an application and retrieve address book entries:\n\n`\n...\nobj = new XMLHttpRequest();\nobj.open('GET','/fetchusers.jsp?id='+form.id.value,'true','scott','tiger');\n...\n`\n\nThis code will run successfully, but anyone who accesses the containing web page will be able to view the password."
+              },
+              "defaultConfiguration": {
+                "level": "error",
+                "properties": {
+                  "DefaultSeverity": "3.0"
+                }
+              },
+              "relationships": [
+                {
+                  "target": {
+                    "id": "259",
+                    "toolComponent": {
+                      "name": "CWE",
+                      "guid": "25F72D7E-8A92-459D-AD67-64853F788765"
+                    }
+                  },
+                  "kinds": [
+                    "relevant"
+                  ]
+                },
+                {
+                  "target": {
+                    "id": "798",
+                    "toolComponent": {
+                      "name": "CWE",
+                      "guid": "25F72D7E-8A92-459D-AD67-64853F788765"
+                    }
+                  },
+                  "kinds": [
+                    "relevant"
+                  ]
+                }
+              ],
+              "properties": {
+                "Accuracy": "3.0",
+                "Impact": "4.0",
+                "Probability": "4.0"
+              }
+            },
+            {
+              "id": "7D91AD3F-8148-4E32-A221-F6CA8980795F0",
+              "guid": "7D91AD3F-8148-4E32-A221-F6CA8980795F",
+              "name": "Encapsulation/System Information Leak/Internal",
+              "shortDescription": {
+                "text": "The function {EnclosingFunction.name} in {PrimaryLocation.file} might reveal system data or debugging information by calling {PrimaryCall.name} on line {PrimaryLocation.line}. The information revealed by {PrimaryCall.name} could help an adversary form a plan of attack.\nRevealing system data or debugging information helps an adversary learn about the system and form a plan of attack."
+              },
+              "fullDescription": {
+                "text": "An internal information leak occurs when system data or debugging information is sent to a local file, console, or screen via printing or logging.\n\nIn this case, <Replace key=\"PrimaryCall.name\" link=\"PrimaryLocation\"/> is called in {PrimaryLocation.file} at line {PrimaryLocation.line}.\n\n**Example 1:** The following code writes an exception to the standard error stream:\n\n`\nvar http = require('http');\n...\n\nhttp.request(options, function(res){\n  ...\n}).on('error', function(e){\n  console.log('There was a problem with the request: ' + e);\n});\n...\n`\n\nDepending upon the system configuration, this information can be dumped to a console, written to a log file, or exposed to a user. In some cases the error message tells the attacker precisely what sort of an attack the system is vulnerable to. For example, a database error message can reveal that the application is vulnerable to a SQL injection attack. Other error messages can reveal more oblique clues about the system. In `Example 1`, the leaked information could imply information about the type of operating system, the applications installed on the system, and the amount of care that the administrators have put into configuring the program."
+              },
+              "defaultConfiguration": {
+                "level": "note",
+                "properties": {
+                  "DefaultSeverity": "3.0"
+                }
+              },
+              "relationships": [
+                {
+                  "target": {
+                    "id": "497",
+                    "toolComponent": {
+                      "name": "CWE",
+                      "guid": "25F72D7E-8A92-459D-AD67-64853F788765"
+                    }
+                  },
+                  "kinds": [
+                    "relevant"
+                  ]
+                }
+              ],
+              "properties": {
+                "Accuracy": "4.0",
+                "Impact": "1.0",
+                "Probability": "1.0"
+              }
+            },
+            {
+              "id": "919BF191-6443-4239-BBFF-A7A31C108032",
+              "guid": "919BF191-6443-4239-BBFF-A7A31C108032",
+              "name": "Security Features/Insecure Randomness",
+              "shortDescription": {
+                "text": "The random number generator implemented by {PrimaryCall.name} cannot withstand a cryptographic attack.\nStandard pseudorandom number generators cannot withstand cryptographic attacks."
+              },
+              "fullDescription": {
+                "text": "Insecure randomness errors occur when a function that can produce predictable values is used as a source of randomness in a security-sensitive context.\n\nIn this case, the function that generates weak random numbers is <Replace key=\"PrimaryCall.name\" link=\"PrimaryLocation\"/> in {PrimaryLocation.file} at line {PrimaryLocation.line}.\n\nComputers are deterministic machines, and as such are unable to produce true randomness. Pseudorandom Number Generators (PRNGs) approximate randomness algorithmically, starting with a seed from which subsequent values are calculated.\n\nThere are two types of PRNGs: statistical and cryptographic. Statistical PRNGs provide useful statistical properties, but their output is highly predictable and form an easy to reproduce numeric stream that is unsuitable for use in cases where security depends on generated values being unpredictable. Cryptographic PRNGs address this problem by generating output that is more difficult to predict. For a value to be cryptographically secure, it must be impossible or highly improbable for an attacker to distinguish between the generated random value and a truly random value. In general, if a PRNG algorithm is not advertised as being cryptographically secure, then it is probably a statistical PRNG and should not be used in security-sensitive contexts, where its use can lead to serious vulnerabilities such as easy-to-guess temporary passwords, predictable cryptographic keys, session hijacking, and DNS spoofing.\n\n**Example:** The following code uses a statistical PRNG to create a URL for a receipt that remains active for some period of time after a purchase.\n\n`\nfunction genReceiptURL (baseURL){\n  var randNum = Math.random();\n  var receiptURL = baseURL + randNum + \".html\";\n  return receiptURL;\n}\n`\n\nThis code uses the `Math.random()` function to generate \"unique\" identifiers for the receipt pages it generates. Since `Math.random()` is a statistical PRNG, it is easy for an attacker to guess the strings it generates. Although the underlying design of the receipt system is also faulty, it would be more secure if it used a random number generator that did not produce predictable receipt identifiers, such as a cryptographic PRNG."
+              },
+              "defaultConfiguration": {
+                "level": "error",
+                "properties": {
+                  "DefaultSeverity": "2.0"
+                }
+              },
+              "relationships": [
+                {
+                  "target": {
+                    "id": "338",
+                    "toolComponent": {
+                      "name": "CWE",
+                      "guid": "25F72D7E-8A92-459D-AD67-64853F788765"
+                    }
+                  },
+                  "kinds": [
+                    "relevant"
+                  ]
+                }
+              ],
+              "properties": {
+                "Accuracy": "2.0",
+                "Impact": "4.0",
+                "Probability": "1.0"
+              }
+            },
+            {
+              "id": "DEA0817E-5FDF-48C9-A064-CC2A6845972E",
+              "guid": "DEA0817E-5FDF-48C9-A064-CC2A6845972E",
+              "name": "Security Features/Insecure Transport",
+              "shortDescription": {
+                "text": "The call to {PrimaryCall.name} in {PrimaryLocation.file} on line {PrimaryLocation.line} uses an unencrypted protocol instead of an encrypted protocol to communicate with the server.\nThe call uses an unencrypted protocol instead of an encrypted protocol to communicate with the server."
+              },
+              "fullDescription": {
+                "text": "All communication over HTTP, FTP or gopher is unauthenticated and unencrypted. It is therefore subject to compromise, especially in the mobile environment where devices frequently connect to unsecured, public, wireless networks using WiFi connections.\n\n**Example 1:** The following example reads data using the HTTP protocol (instead of using HTTPS).\n\n`\nvar http = require('http');\n...\nhttp.request(options, function(res){\n  ...\n});\n...\n`\n\nThe incoming `http.IncomingMessage` object,`res`, may have been compromised as it is delivered over an unencrypted and unauthenticated channel."
+              },
+              "defaultConfiguration": {
+                "level": "error",
+                "properties": {
+                  "DefaultSeverity": "4.0"
+                }
+              },
+              "relationships": [
+                {
+                  "target": {
+                    "id": "319",
+                    "toolComponent": {
+                      "name": "CWE",
+                      "guid": "25F72D7E-8A92-459D-AD67-64853F788765"
+                    }
+                  },
+                  "kinds": [
+                    "relevant"
+                  ]
+                }
+              ],
+              "properties": {
+                "Accuracy": "4.0",
+                "Impact": "4.0",
+                "Probability": "4.0"
+              }
+            },
+            {
+              "id": "4B50B83A-A24F-49EA-BD59-C2EA5D60F63F0",
+              "guid": "4B50B83A-A24F-49EA-BD59-C2EA5D60F63F"
+            }
+          ],
+          "supportedTaxonomies": [
+            {
+              "name": "CWE",
+              "index": 0,
+              "guid": "25F72D7E-8A92-459D-AD67-64853F788765"
+            }
+          ]
+        }
+      },
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "file:///D:/work/app/Src/gha-sample-workflows-ssc-js-sandbox/"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "919BF191-6443-4239-BBFF-A7A31C108032",
+          "ruleIndex": 3,
+          "level": "error",
+          "message": {
+            "text": "The random number generator implemented by [random()](1) cannot withstand a cryptographic attack.\nStandard pseudorandom number generators cannot withstand cryptographic attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/createVersion_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 50,
+                  "snippet": {
+                    "text": "    const rnd = Math.floor(Math.random() * 1000);"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 47,
+                  "endLine": 53,
+                  "snippet": {
+                    "text": "   * create a version\n   */\n  it('creates a version and copy issues from config.sampleVersionId', function (done) {\n    const rnd = Math.floor(Math.random() * 1000);\n    const verName = \"Node App Test Version\" + rnd;\n    const appName = \"Node App Test\" + rnd;\n    restClient.createVersion({\n"
+                  }
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "id": 1,
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/createVersion_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 50,
+                  "startColumn": 28
+                }
+              },
+              "message": {
+                "text": "[No message provided.]"
+              }
+            }
+          ],
+          "properties": {
+            "InstanceSeverity": "2.0",
+            "Confidence": "5.0"
+          }
+        },
+        {
+          "ruleId": "919BF191-6443-4239-BBFF-A7A31C108032",
+          "ruleIndex": 3,
+          "level": "error",
+          "message": {
+            "text": "The random number generator implemented by [random()](1) cannot withstand a cryptographic attack.\nStandard pseudorandom number generators cannot withstand cryptographic attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/updateCustomTagsOfVersion_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 68,
+                  "snippet": {
+                    "text": "      customTag.name = 'Custom tag for version id ' + config.sampleVersionId + ' ' + Math.floor(Math.random() * 1000);"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 65,
+                  "endLine": 71,
+                  "snippet": {
+                    "text": "    let customTagId = config.sampleCustomTagId;\n    if (config.sampleCustomTagId < 0) {\n      const customTag = config.sampleCustomTag;\n      customTag.name = 'Custom tag for version id ' + config.sampleVersionId + ' ' + Math.floor(Math.random() * 1000);\n      restClient.createCustomTag(customTag).then((newCustomTag) => {\n        console.log(chalk.green(\"successfully created custom tag \" + newCustomTag.name + \" with id \" + newCustomTag.id));\n        restClient.getCustomTag([newCustomTag.id]).then((response) => {\n"
+                  }
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "id": 1,
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/updateCustomTagsOfVersion_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 68,
+                  "startColumn": 97
+                }
+              },
+              "message": {
+                "text": "[No message provided.]"
+              }
+            }
+          ],
+          "properties": {
+            "InstanceSeverity": "2.0",
+            "Confidence": "5.0"
+          }
+        },
+        {
+          "ruleId": "919BF191-6443-4239-BBFF-A7A31C108032",
+          "ruleIndex": 3,
+          "level": "error",
+          "message": {
+            "text": "The random number generator implemented by [random()](1) cannot withstand a cryptographic attack.\nStandard pseudorandom number generators cannot withstand cryptographic attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/createCustomTag_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 51,
+                  "snippet": {
+                    "text": "    customTag.name = 'JS-Sandbox ' + Math.floor(Math.random() * 1000);"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 48,
+                  "endLine": 54,
+                  "snippet": {
+                    "text": "   */\n  it('creates a custom tag', function (done) {\n    const customTag = config.sampleCustomTag;\n    customTag.name = 'JS-Sandbox ' + Math.floor(Math.random() * 1000);\n    restClient.createCustomTag(customTag).then((newCustomTag) => {\n      console.log(chalk.green(\"successfully created custom tag \" + newCustomTag.name + \" with id \" + newCustomTag.id));\n      done();\n"
+                  }
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "id": 1,
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/createCustomTag_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 51,
+                  "startColumn": 49
+                }
+              },
+              "message": {
+                "text": "[No message provided.]"
+              }
+            }
+          ],
+          "properties": {
+            "InstanceSeverity": "2.0",
+            "Confidence": "5.0"
+          }
+        },
+        {
+          "ruleId": "919BF191-6443-4239-BBFF-A7A31C108032",
+          "ruleIndex": 3,
+          "level": "error",
+          "message": {
+            "text": "The random number generator implemented by [random()](1) cannot withstand a cryptographic attack.\nStandard pseudorandom number generators cannot withstand cryptographic attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/assignAttributeVersions_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "snippet": {
+                    "text": "    sampleAttributeDefinition.name = \"company guid \" + Math.floor(Math.random()*100);"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 50,
+                  "endLine": 56,
+                  "snippet": {
+                    "text": "   */\n  it('creates a single input (text) attribute', function (done) {\n    let sampleAttributeDefinition = config.sampleAttributeDefinition;\n    sampleAttributeDefinition.name = \"company guid \" + Math.floor(Math.random()*100);\n    commonTestsUtils.restClient.createAttributeDefinition(sampleAttributeDefinition).then((attrDef) => {\n      console.log(chalk.green(\"successfully created attribute definition \" + attrDef.name + \" /id = \" + attrDef.id));\n      attributeDefinition = attrDef;\n"
+                  }
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "id": 1,
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/assignAttributeVersions_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 53,
+                  "startColumn": 67
+                }
+              },
+              "message": {
+                "text": "[No message provided.]"
+              }
+            }
+          ],
+          "properties": {
+            "InstanceSeverity": "2.0",
+            "Confidence": "5.0"
+          }
+        },
+        {
+          "ruleId": "D6E6DFB6-6664-4FC9-BFE8-502BAE140905",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "Hardcoded passwords may compromise system security in a way that cannot be easily remedied."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/createLocalUserAndAssignToVersion_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 59,
+                  "snippet": {
+                    "text": "        \"clearPassword\": \"Admin_12%superStrong!$\","
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 56,
+                  "endLine": 62,
+                  "snippet": {
+                    "text": "        \"firstName\": \"new\",\n        \"lastName\": \"user\" +timeStamp,\n        \"email\": \"newuser\" + +timeStamp + \"@test.com\",\n        \"clearPassword\": \"Admin_12%superStrong!$\",\n        \"passwordNeverExpire\": true,\n        \"roles\": [{\n            \"id\": \"securitylead\"\n"
+                  }
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "id": 1,
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "test/createLocalUserAndAssignToVersion_spec.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 59,
+                  "startColumn": 9
+                }
+              },
+              "message": {
+                "text": "[No message provided.]"
+              }
+            }
+          ],
+          "properties": {
+            "InstanceSeverity": "3.0",
+            "Confidence": "5.0"
+          }
+        },
+        {
+          "ruleId": "DEA0817E-5FDF-48C9-A064-CC2A6845972E",
+          "ruleIndex": 4,
+          "level": "error",
+          "message": {
+            "text": "The call to [get()](1) in [restClient.js](1) on line [50](1) uses an unencrypted protocol instead of an encrypted protocol to communicate with the server.\nThe call uses an unencrypted protocol instead of an encrypted protocol to communicate with the server."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/restClient.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 50,
+                  "snippet": {
+                    "text": "    var request = moduleRef.get(url, function (response) {"
+                  }
+                },
+                "contextRegion": {
+                  "startLine": 47,
+                  "endLine": 53,
+                  "snippet": {
+                    "text": "    if (url.startsWith(\"https\")) {\n        moduleRef = https;\n    }\n    var request = moduleRef.get(url, function (response) {\n        response.pipe(file);\n        file.on('finish', function () {\n            file.close(cb);\n"
+                  }
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "id": 1,
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/restClient.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 50,
+                  "startColumn": 19
+                }
+              },
+              "message": {
+                "text": "[No message provided.]"
+              }
+            }
+          ],
+          "properties": {
+            "InstanceSeverity": "4.0",
+            "Confidence": "5.0"
+          }
+        }
+      ],
+      "automationDetails": {
+        "id": "924237-565360-FortifyPS/"
+      },
+      "columnKind": "utf16CodeUnits",
+      "threadFlowLocations": [
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/updateCustomTagsOfVersion_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 90,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 87,
+                "endLine": 93,
+                "snippet": {
+                  "text": "    restClient.updateCustomTagsOfVersion([config.sampleVersionId], customTags).then((response) => {\n      console.log(chalk.green(`successfully got all the custom tags for the project version with ID ${config.sampleVersionId}`));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error updating the list of custom tags for the project version with ID:\" + config.sampleVersionId), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/fprUpload_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 59,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 56,
+                "endLine": 62,
+                "snippet": {
+                  "text": "      artifactJobid = jobid;\n      console.log(chalk.green(`successfully uploaded FPR ${config.sampleFPR} to ${config.sampleVersionId}, job id: ${jobid}`));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error uploading FPR version \"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/updateCustomTagsOfVersion_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 75,
+                "snippet": {
+                  "text": "        }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 72,
+                "endLine": 78,
+                "snippet": {
+                  "text": "          customTags.push(response.obj.data);\n          console.log(chalk.green(`IDs of custom tag list with new appended element: ` + customTags.map(elem => elem.id).join(\", \")));\n          done();\n        }).catch((err) => {\n          console.log(chalk.red(\"error appending the selected custom tag to the list\"), err)\n          done(err);\n        });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/assignAppVersionToAuthEntities_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 77,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 74,
+                "endLine": 80,
+                "snippet": {
+                  "text": "    restClient.assignAppVersionToAuthEntities(pvId,requestData).then((resp) => {\n      console.log(chalk.green(`successfully reverted ${resp.length} authentities to an appversion [id = ${pvId}]`));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"Error reverting authentities to an appversion!\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/assignAppVersionToAuthEntities_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 66,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 63,
+                "endLine": 69,
+                "snippet": {
+                  "text": "    restClient.assignAppVersionToAuthEntities(pvId,requestData).then((resp) => {\n      console.log(chalk.green(`successfully assigned ${resp.length} authentities to an appversion [id = ${pvId}]`));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"Error assigning authentities to an appversion!\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/assignAppVersionToAuthEntities_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 54,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 51,
+                "endLine": 57,
+                "snippet": {
+                  "text": "      console.log(chalk.green(`successfully retrieved ${resp.length} authentities currently assigned to an appversion [id = ${pvId}]`));\n      originalAuthEntities = resp;\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"Error retrieving authentities assigned to an appversion!\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/cleanup/runCleanup_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 52,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 49,
+                "endLine": 55,
+                "snippet": {
+                  "text": "    restClient.clearTokensOfUser().then((status) => {\n      console.log(chalk.green(\"successfully cleared all tokens owned by test user \"));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error clearing tokens owned by test user\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/assignAttributeVersions_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 58,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 55,
+                "endLine": 61,
+                "snippet": {
+                  "text": "      console.log(chalk.green(\"successfully created attribute definition \" + attrDef.name + \" /id = \" + attrDef.id));\n      attributeDefinition = attrDef;\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error creating attribute definition \"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/issues_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 59,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 56,
+                "endLine": 62,
+                "snippet": {
+                  "text": "    }).then((allCount) => {\n      console.log(chalk.green(\"successfully got a total of = \" + allCount + \" issues\"));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error listing issues\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/fprDownload_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 58,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 55,
+                "endLine": 61,
+                "snippet": {
+                  "text": "    restClient.downloadFPR(config.sampleArtifactId, filename).then((dest) => {      \n      console.log(chalk.green(`successfully downloaded FPR to ${dest}`));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(`error downloading FPR ${filename}`), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/updateCustomTagsOfVersion_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 58,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 55,
+                "endLine": 61,
+                "snippet": {
+                  "text": "      customTags = response;\n      console.log(chalk.green(`successfully got all the custom tags for the project version with ID ${config.sampleVersionId}`));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error getting all the custom tags for the project version with ID:\" + config.sampleVersionId), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/generateReport_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 98,
+                "snippet": {
+                  "text": "      }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 95,
+                "endLine": 101,
+                "snippet": {
+                  "text": "            done();\n            break;\n        }\n      }).catch((err) => {\n        // let msg = `${savedReport.name} id(${savedReport.id}) failed! ` + err.message;\n        console.log(\"Error generating report: \" + JSON.stringify(err));\n        done(err);\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/generateReport_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 100,
+                "snippet": {
+                  "text": "        console.log(\"Error generating report: \" + JSON.stringify(err));"
+                }
+              },
+              "contextRegion": {
+                "startLine": 97,
+                "endLine": 103,
+                "snippet": {
+                  "text": "        }\n      }).catch((err) => {\n        // let msg = `${savedReport.name} id(${savedReport.id}) failed! ` + err.message;\n        console.log(\"Error generating report: \" + JSON.stringify(err));\n        done(err);\n      });\n    }\n"
+                }
+              }
+            },
+            "message": {
+              "text": "stringify(0 : return)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function",
+            "return"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/issues_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 74,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 71,
+                "endLine": 77,
+                "snippet": {
+                  "text": "    restClient.getIssues(config.sampleVersionId, 0, \"CUSTOMTAG[87f2364f-dcd4-49e6-861d-f8d3f351686b]:4,ISSUE[11111111-1111-1111-1111-111111111165]:SQL Injection\").then((response) => {\n      console.log('filter found:' + (response.obj.data ? response.obj.data.length : 0) + ' issues');\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error filtering issues\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/createLocalUserAndAssignToVersion_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 75,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 72,
+                "endLine": 78,
+                "snippet": {
+                  "text": "      console.log(chalk.green(`successfully created new local user ${localUser.userName}`));\n      localUserEntity = localUser;\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"Error creating new local user!\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/getAAConfig_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 63,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 60,
+                "endLine": 66,
+                "snippet": {
+                  "text": "        console.log(chalk.green(\"Audit Assistant is enabled\"));\n      }\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error getting configuration \"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/generateReport_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 58,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 55,
+                "endLine": 61,
+                "snippet": {
+                  "text": "      console.log(chalk.green(\"successfully generated DISA STIG \" + JSON.stringify(savedReport)));\n      savedReportEntity = savedReport;\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error generating report\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/generateReport_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 120,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 117,
+                "endLine": 123,
+                "snippet": {
+                  "text": "    restClient.downloadReport(savedReportEntity.id, savedReportEntity.name + \".\" + savedReportEntity.format).then((dest) => {\n      console.log(chalk.green(\"successfully downloaded report to \" + dest));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error generating report\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/assignUserToVersions_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 57,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 54,
+                "endLine": 60,
+                "snippet": {
+                  "text": "    restClient.assignUserToVersions(userId,requestData).then((resp) => {\n      console.log(chalk.green(`successfully assigned userid ${userId} to versions [${config.sampleVersionId} , ${config.sampleSecondaryVersionId}]`));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"Error assigning user to versions!\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/createLocalUserAndAssignToVersion_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 92,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 89,
+                "endLine": 95,
+                "snippet": {
+                  "text": "    restClient.assignUserToVersions(userId,requestData).then((resp) => {\n      console.log(chalk.green(`successfully assigned user to version  ${config.sampleVersionId}`));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"Error assigning user to versions!\"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/createCustomTag_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 55,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 52,
+                "endLine": 58,
+                "snippet": {
+                  "text": "    restClient.createCustomTag(customTag).then((newCustomTag) => {\n      console.log(chalk.green(\"successfully created custom tag \" + newCustomTag.name + \" with id \" + newCustomTag.id));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error creating version \"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/createVersion_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 70,
+                "snippet": {
+                  "text": "    }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 67,
+                "endLine": 73,
+                "snippet": {
+                  "text": "    }).then((version) => {\n      console.log(chalk.green(\"successfully created version \" + version.name));\n      done();\n    }).catch((err) => {\n      console.log(chalk.red(\"error creating version \"), err)\n      done(err);\n    });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        },
+        {
+          "location": {
+            "physicalLocation": {
+              "artifactLocation": {
+                "uri": "test/updateCustomTagsOfVersion_spec.js",
+                "uriBaseId": "%SRCROOT%"
+              },
+              "region": {
+                "startLine": 79,
+                "snippet": {
+                  "text": "      }).catch((err) => {"
+                }
+              },
+              "contextRegion": {
+                "startLine": 76,
+                "endLine": 82,
+                "snippet": {
+                  "text": "          console.log(chalk.red(\"error appending the selected custom tag to the list\"), err)\n          done(err);\n        });\n      }).catch((err) => {\n        console.log(chalk.red(\"error creating version \"), err)\n        done(err);\n      });\n"
+                }
+              }
+            },
+            "message": {
+              "text": "lambda(0)"
+            }
+          },
+          "kinds": [
+            "call",
+            "function"
+          ]
+        }
+      ],
+      "taxonomies": [
+        {
+          "guid": "25F72D7E-8A92-459D-AD67-64853F788765",
+          "name": "CWE",
+          "organization": "MITRE",
+          "shortDescription": {
+            "text": "The MITRE Common Weakness Enumeration"
+          },
+          "taxa": [
+            {
+              "id": "497"
+            },
+            {
+              "id": "338"
+            },
+            {
+              "id": "615"
+            },
+            {
+              "id": "259"
+            },
+            {
+              "id": "798"
+            },
+            {
+              "id": "319"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

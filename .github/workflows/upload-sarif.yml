@@ -13,4 +13,4 @@ jobs:
       uses: github/codeql-action/upload-sarif@v1
       with:
         # Path to SARIF file relative to the root of the repository
-        sarif_file: clout.sarif
+        sarif_file: FoDScan-251975-Static.sarif
