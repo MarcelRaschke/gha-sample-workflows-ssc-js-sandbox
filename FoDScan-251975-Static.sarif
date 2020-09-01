@@ -13,7 +13,7 @@
               "guid": "9DC93E75-BA94-4FA1-A177-ED1201EB29BC",
               "name": "Security Features/Password Management/Password in Comment",
               "shortDescription": {
-                "text": "XXStoring passwords or password details in plain text anywhere in the system or system code may compromise system security in a way that cannot be easily remedied."
+                "text": "Storing passwords or password details in plain text anywhere in the system or system code may compromise system security in a way that cannot be easily remedied."
               },
               "fullDescription": {
                 "text": "It is never a good idea to hardcode a password. Storing password details within comments is equivalent to hardcoding passwords. Not only does it allow all of the project's developers to view the password, it also makes fixing the problem extremely difficult. After the code is in production, the password is now leaked to the outside world and cannot be protected or changed without patching the software. If the account protected by the password is compromised, the owners of the system must choose between security and availability.\n\nIn this case, the password details appear in the comment in {PrimaryLocation.file} at line {PrimaryLocation.line}.\n\n**Example:** The following comment specifies the default password to connect to a database:\n\n`\n...\n// Default username for database connection is \"scott\"\n// Default password for database connection is \"tiger\"\n...\n`\n\nThis code will run successfully, but anyone who has access to it will have access to the password. After the program ships, there is likely no way to change the database user \"scott\" with a password of \"tiger\" unless the program is patched. An employee with access to this information can use it to break into the system."
@@ -48,7 +48,7 @@
               "guid": "D6E6DFB6-6664-4FC9-BFE8-502BAE140905",
               "name": "Security Features/Password Management/Hardcoded Password",
               "shortDescription": {
-                "text": "Hardcoded passwords may compromise system security in a way that cannot be easily remedied."
+                "text": "XXXHardcoded passwords may compromise system security in a way that cannot be easily remedied."
               },
               "fullDescription": {
                 "text": "It is never a good idea to hardcode a password. Not only does hardcoding a password allow all of the project's developers to view the password, it also makes fixing the problem extremely difficult. After the code is in production, the password cannot be changed without patching the software. If the account protected by the password is compromised, the owners of the system must choose between security and availability.\n\nIn this case, the password was used to access a resource at <Replace key=\"PrimaryCall.name\" link=\"PrimaryLocation\"/> in {PrimaryLocation.file} at line {PrimaryLocation.line}.\n\n**Example:** The following code uses a hardcoded password to connect to an application and retrieve address book entries:\n\n`\n...\nobj = new XMLHttpRequest();\nobj.open('GET','/fetchusers.jsp?id='+form.id.value,'true','scott','tiger');\n...\n`\n\nThis code will run successfully, but anyone who accesses the containing web page will be able to view the password."
