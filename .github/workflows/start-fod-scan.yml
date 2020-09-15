@@ -37,8 +37,11 @@ jobs:
       #   For other build tools, add your build commands to download necessary dependencies and prepare according to Fortify on Demand Packaging documentation.
       - name: Download Fortify ScanCentral Client
         uses: fortify/gha-setup-scancentral-client@v1
+        run: npm install --no-save
       - name: Package Code + Dependencies
-        run: scancentral package -o package.zip
+        run: scancentral package $PACKAGE_OPTS -o package.zip
+        env:
+          PACKAGE_OPTS: "-bt none"
       
       # Start Fortify on Demand SAST scan and wait until results complete. Be sure to set secrets/variables for your FoD tenant.
       - name: Download Fortify on Demand Universal CI Tool
