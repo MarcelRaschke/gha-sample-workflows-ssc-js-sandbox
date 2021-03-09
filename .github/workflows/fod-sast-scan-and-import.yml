@@ -1,4 +1,4 @@
-name: Fortify on Demand SAST Scan
+name: Fortify on Demand SAST Scan and Import
 
 on: workflow_dispatch
 
