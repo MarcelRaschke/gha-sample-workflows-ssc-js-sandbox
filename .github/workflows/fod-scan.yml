@@ -47,15 +47,14 @@ jobs:
       - name: Download Results
         uses: fortify/gha-export-vulnerabilities@v1
         with:
-          base-url: https://ams.fortify.com
-          tenant: ${{ secrets.FOD_TENANT }}
-          user: ${{ secrets.FOD_USER }}
-          password: ${{ secrets.FOD_PAT }}
-          release-id: ${{ secrets.FOD_RELEASE_ID }}
-          output: ./sarif/output.sarif
+          fod_base_url: https://ams.fortify.com
+          fod_tenant: ${{ secrets.FOD_TENANT }}
+          fod_user: ${{ secrets.FOD_USER }}
+          fod_password: ${{ secrets.FOD_PAT }}
+          fod_release_id: ${{ secrets.FOD_RELEASE_ID }}
       
       # Import Fortify on Demand results to GitHub Security Code Scanning
       - name: Import Results
         uses: github/codeql-action/upload-sarif@v1
         with:
-          sarif_file: ./sarif/output.sarif
+          sarif_file: ./gh-fortify-sast.sarif
