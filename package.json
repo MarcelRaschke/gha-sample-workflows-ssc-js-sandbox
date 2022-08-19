@@ -21,7 +21,9 @@
     "train": "mocha test/auditAssistantBatchTraining_spec.js",
     "uploadFPR": "mocha test/fprUpload_spec.js",
     "runCleanup": "mocha test/cleanup/runCleanup_spec.js",
-    "updateCustomTagsOfVersion": "mocha test/updateCustomTagsOfVersion_spec.js"
+    "updateCustomTagsOfVersion": "mocha test/updateCustomTagsOfVersion_spec.js",
+    "prepublish": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -52,10 +54,12 @@
     "mocha": "~8.2.1",
     "request": "^2.81.0",
     "sequence": "^3.0.0",
-    "swagger-client": "^3.10.0"
+    "swagger-client": "^3.10.0",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
     "@babel/register": "^7.6.0"
-  }
+  },
+  "snyk": true
 }
